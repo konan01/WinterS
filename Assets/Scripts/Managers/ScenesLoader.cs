@@ -20,10 +20,15 @@ public class ScenesLoader : MonoBehaviour
     public Transform playerTransform;
     public Load load;
     public Save save;
+
+    Camera cameraMenu;
+    Camera cameraCharester;
     // Start is called before the first frame update
     void Start()
     {
         listEnemy = GameObject.FindGameObjectWithTag("EnemyBase").GetComponent<EnemyBase>();
+        cameraMenu = Camera.main;
+        cameraCharester = GameObject.FindGameObjectWithTag("CameraCharester").GetComponent<Camera>();
        // Time.timeScale = 0;
         canvasMenu.SetActive(false);
         canvasGame.SetActive(false);
@@ -55,7 +60,8 @@ public class ScenesLoader : MonoBehaviour
     {
         creaeRoomPanel.SetActive(!creaeRoomPanel.activeSelf);
 
-    }public void ButtonConnectToRoom()
+    }
+    public void ButtonConnectToRoom()
     {
         roomListPanel.SetActive(!roomListPanel.activeSelf);
 
@@ -70,51 +76,53 @@ public class ScenesLoader : MonoBehaviour
     public void ShowUpgradeScreen()
     {
         upgradePanel.SetActive(!upgradePanel.activeSelf);
-
     }
     public void NewGame()
     {
-        //menu = false;
         canvasMenu.SetActive(false);
         canvasGame.SetActive(true);
         
         load.LoadNewGame();
-        Camera.main.GetComponent<AudioListener>().enabled = false;
-        Camera.main.enabled = false;
-        
+        cameraMenu.GetComponent<AudioListener>().enabled = false;
+        cameraMenu.enabled = false;
+       
+    }
+    public void TurnOnManagers()
+    {
         upgradeManager.SetActive(true);
-        //enemyManager.SetActive(true);//временное отключение\включение врагов
-        //Time.timeScale = 1;
-
-        //AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(index);
-
+        enemyManager.SetActive(true);//временное включение врагов
+    }
+    public void TurnOffManagers()
+    {
+        upgradeManager.SetActive(false);
+        enemyManager.SetActive(false);//временное отключение врагов
     }
     public void ContinueGame()
     {
-
-        //menu = false;
         canvasMenu.SetActive(false);
         canvasGame.SetActive(true);
         load.LoadContine();
-        //AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(index);
-        //SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        //SceneManager.LoadScene(2, LoadSceneMode.Single);
         menu = false;
 
         //enemy_manager.SetActive(true);//временное отключение\включение врагов
         //Time.timeScale = 1;
 
     }
-    public void RestGame()
+    public void BackToMenu()
     {
+        //save.SaveGame();
+        TurnOffManagers();
+        listEnemy.DestroyAllEnemy();
+        canvasGame.SetActive(false);
+        canvasMenu.SetActive(true);
 
-
-        save.SaveGame();
-        Respawn();
+        cameraMenu.GetComponent<AudioListener>().enabled = true;
+        cameraMenu.enabled = true;
+        //Respawn();
         //load.LoadContine();
         //gameObject.SetActive(false);
-        Time.timeScale = 1;
         //SceneManager.LoadScene();
+
     }
     public void ExitGame()
     {

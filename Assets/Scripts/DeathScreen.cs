@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,16 +24,15 @@ public class DeathScreen : MonoBehaviour
 
     public void ShowDeathScreen()
     {
-        isDeath = true;
-        Time.timeScale = 0;
-        gameObject.SetActive(true);
+        //isDeath = true;
+        //gameObject.SetActive(true);
+        scenesLoader.BackToMenu();
     }
 
     public void RestartGame()
     {
         isDeath = false;
         //gameObject.SetActive(false);
-        scenesLoader.RestGame();
         gameObject.SetActive(false);
         //SceneManager.LoadScene(index);
     }
@@ -42,6 +42,7 @@ public class DeathScreen : MonoBehaviour
     }
     public void BackToMainMenu()
     {
+        PhotonNetwork.LeaveRoom();
         scenesLoader.BackToMenu(true);
         gameObject.SetActive(false);
     }

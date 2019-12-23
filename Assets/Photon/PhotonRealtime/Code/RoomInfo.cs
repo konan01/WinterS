@@ -71,6 +71,10 @@ namespace Photon.Realtime
         /// <summary>Backing field for property.</summary>
         protected string[] propertiesListedInLobby;
 
+        protected bool isOnPassProtected = false;
+        protected int password = 0;
+
+
         /// <summary>Read-only "cache" of custom properties of a room. Set via Room.SetCustomProperties (not available for RoomInfo class!).</summary>
         /// <remarks>All keys are string-typed and the values depend on the game/application.</remarks>
         /// <see cref="Room.SetCustomProperties"/>
@@ -160,6 +164,24 @@ namespace Photon.Realtime
 
             this.name = roomName;
         }
+
+        /// <summary>
+        /// My blok for password enter.
+        public bool IsOnPassProtected
+        {
+            get
+            {
+                return this.isOnPassProtected;
+            }
+        }
+        public int Password
+        {
+            get
+            {
+                return this.password;
+            }
+        }
+        /// </summary>
 
         /// <summary>
         /// Makes RoomInfo comparable (by name).
@@ -266,6 +288,14 @@ namespace Photon.Realtime
                 this.playerTtl = (int)propertiesToCache[GamePropertyKey.PlayerTtl];
             }
 
+            if (propertiesToCache.ContainsKey(GamePropertyKey.IsOnPassProtected))
+            {
+                this.isOnPassProtected = (bool)propertiesToCache[GamePropertyKey.IsOnPassProtected];
+            }
+            if (propertiesToCache.ContainsKey(GamePropertyKey.Password))
+            {
+                this.password = (int)propertiesToCache[GamePropertyKey.Password];
+            }
             // merge the custom properties (from your application) to the cache (only string-typed keys will be kept)
             this.customProperties.MergeStringKeys(propertiesToCache);
             this.customProperties.StripKeysWithNullValues();

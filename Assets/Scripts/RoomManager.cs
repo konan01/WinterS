@@ -19,6 +19,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public GameObject container;
     public ScenesLoader scenesLoader;
 
+    public TMP_InputField nameRoom;
+    public TMP_InputField passwordRoom;
+
     TypedLobby lobby = new TypedLobby("sdfsd", LobbyType.Default);
     List<Container> containers;
     bool isConnected = false;
@@ -52,18 +55,38 @@ public class RoomManager : MonoBehaviourPunCallbacks
         print("Lobby Joined"+lobby);
         
     }
+    public void CreateLobby()
+    {
+        if (isConnected)
+        {
+            //print(passwordRoom.text);
+            if (!passwordRoom.text.Equals(""))
+                PhotonNetwork.CreateRoom(nameRoom.text, new RoomOptions { MaxPlayers = 3 , IsOnPassProtected=true, Password=PasswordEncryption(passwordRoom.text) }); 
+            else
+                PhotonNetwork.CreateRoom(nameRoom.text, new RoomOptions { MaxPlayers = 3, IsOnPassProtected = false });
+        }
+        //print(PasswordEncryption(passwordRoom.text));
+    }
+    //public void JoinRoom()
+    //{
+    //    if (isConnected)
+
+    //        PhotonNetwork.JoinRoom(nameRoom.text);
+    //}
+
     public override void OnJoinedRoom()
     {
         scenesLoader.NewGame();
         Spawn();
         scenesLoader.TurnOnManagers();
+        print(containers.Count);
     }
 
     // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
-        if(isConnected)
+        if(PhotonNetwork.IsConnected)
         if (!PhotonNetwork.InRoom && PhotonNetwork.InLobby && timer >= 5)
         {
             PhotonNetwork.LeaveLobby();
@@ -74,32 +97,46 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private void UpdateListRoom(List<RoomInfo> roomList)
     {
+        print(roomList.Count);
+        print(containers.Count);
         if (containers.Count < roomList.Count)
             foreach (var item in roomList)
             {
-
-
                 Container listbit = Instantiate(ListRoomBit, container.transform).GetComponent<Container>();
                 listbit.transform.SetParent(container.transform);
                 listbit.Name = item.Name;
                 listbit.Map = "Cokret";
+                listbit.IsOnPassProtected = item.IsOnPassProtected;
+                listbit.setPassword(item.Password);
                 listbit.CountPlayers = item.PlayerCount + "/" + item.MaxPlayers;
                 listbit.id += 1;
 
-                containers.Add(listbit);
+                containers.Add(listbit); print("roomname= " + item.Name + " passwordprotected= " + item.IsOnPassProtected + " roompassword= " + item.Password);
 
             }
-        else if (containers.Count == roomList.Count)
+        if (containers.Count == roomList.Count)
         {
             for (int i = 0; i < containers.Count; i++)
             {
                 containers[i].Name = roomList[i].Name;
                 containers[i].Map = "Cokret";
+                containers[i].IsOnPassProtected = roomList[i].IsOnPassProtected;
+                containers[i].setPassword(roomList[i].Password);
                 containers[i].CountPlayers = roomList[i].PlayerCount + "/" + roomList[i].MaxPlayers;
             }
-           
         }
-
+        if (containers.Count > roomList.Count)
+        {
+            for (int i = 0; i < containers.Count; i++)
+            {
+                if (containers[i].Name != roomList[i].Name)
+                    Destroy(containers[i]);
+            }
+            //foreach (var item in containers)
+            //{
+            //    Destroy(item);
+            //}
+        }
     }
 
     private void Log(string message)
@@ -122,6 +159,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
         camera.GetComponent<CameraFollow>().enabled = true;
        
     }
+    private int PasswordEncryption(string value)
+    {
+        int password=0;
 
-   
+        foreach (char item in value)
+        {
+            password += (int)item;
+        }
+
+        return password;
+    }
+
 }

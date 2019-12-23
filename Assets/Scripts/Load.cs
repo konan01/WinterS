@@ -93,7 +93,7 @@ public class Load : MonoBehaviour
             PlayerShooting.damagePerShot =      Convert.ToInt32(sr.ReadLine());
             tmp = float.Parse(sr.ReadLine());
             PlayerShooting.timeBetweenBullets = tmp;
-            print(PlayerShooting.timeBetweenBullets);
+            //print(PlayerShooting.timeBetweenBullets);
             //printTB(PlayerShooting.timeBetweenBullets.ToString());
             Projactile.velocity =               Convert.ToInt32(sr.ReadLine());
 

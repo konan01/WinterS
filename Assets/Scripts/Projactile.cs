@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,10 +38,10 @@ public class Projactile : MonoBehaviour
             if (enemyHealth != null)
             {
                 enemyHealth.TakeDamage(PlayerShooting.damagePerShot*PlayerWeapon.GetMyltiplaer());
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
             else
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
         }
     }
 
@@ -84,7 +85,7 @@ public class Projactile : MonoBehaviour
         rigidbody.AddForce(transform.forward * velocity);
         if (timer >= 5f)
         {
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }

@@ -130,13 +130,13 @@ public class PlayerShooting : MonoBehaviour
         {
             PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
 
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
 
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
 
             //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
 
@@ -154,17 +154,17 @@ public class PlayerShooting : MonoBehaviour
         {
             PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
 
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f * -1, Quaternion.LookRotation(transform.forward));
 
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f * -1, Quaternion.LookRotation(transform.forward));
 
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.4f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.4f * -1, Quaternion.LookRotation(transform.forward));
 
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
-            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.4f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.4f * -1, Quaternion.LookRotation(transform.forward));
 
             //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
 
@@ -183,6 +183,21 @@ public class PlayerShooting : MonoBehaviour
         }
         else if (length == 9)
         {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+
+            
+
             //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
 
             //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
@@ -196,8 +211,8 @@ public class PlayerShooting : MonoBehaviour
             //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
             //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
 
-            
-           
+
+
 
         }
 

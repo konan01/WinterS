@@ -67,10 +67,6 @@ public class UpgradeManager : MonoBehaviour
     }
     public void OpenUpgradeDialog(GameObject panel)
     {
-        if (panel.activeSelf)
-            Time.timeScale = 1;
-        else
-            Time.timeScale = 0;
         panel.SetActive(!panel.activeSelf);
     }
     public void Healing()

@@ -3662,6 +3662,15 @@ namespace Photon.Realtime
             }
         }
 
+        public void MyRoomListUpdate(List<RoomInfo> roomList)
+        {
+            this.client.UpdateCallbackTargets();
+
+            foreach (ILobbyCallbacks target in this)
+            {
+                target.OnRoomListUpdate(roomList);
+            }
+        }
         public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
         {
             this.client.UpdateCallbackTargets();

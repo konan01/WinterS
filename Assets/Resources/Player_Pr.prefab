@@ -154,7 +154,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!135 &8996733958000875087
 SphereCollider:
@@ -187,7 +187,7 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   flashSpeed: 5
   flashColour: {r: 1, g: 0, b: 0, a: 0.1}
-  deathScreen: {fileID: 0}
+  sceneLoader: {fileID: 0}
   goodmode: 0
 --- !u!114 &3957234749034583786
 MonoBehaviour:

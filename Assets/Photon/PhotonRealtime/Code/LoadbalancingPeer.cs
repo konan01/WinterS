@@ -196,6 +196,8 @@ namespace Photon.Realtime
             gameProperties[GamePropertyKey.IsVisible] = roomOptions.IsVisible;
             gameProperties[GamePropertyKey.PropsListedInLobby] = (roomOptions.CustomRoomPropertiesForLobby == null) ? new string[0] : roomOptions.CustomRoomPropertiesForLobby;
             gameProperties.MergeStringKeys(roomOptions.CustomRoomProperties);
+            gameProperties[GamePropertyKey.IsOnPassProtected] = roomOptions.IsOnPassProtected;
+            gameProperties[GamePropertyKey.Password] = roomOptions.Password;
             if (roomOptions.MaxPlayers > 0)
             {
                 gameProperties[GamePropertyKey.MaxPlayers] = roomOptions.MaxPlayers;
@@ -216,13 +218,15 @@ namespace Photon.Realtime
                 gameProperties[GamePropertyKey.CleanupCacheOnLeave] = false;    // this is only informational for the clients which join
             }
 
+           
+
             #if SERVERSDK
             op[ParameterCode.CheckUserOnJoin] = roomOptions.CheckUserOnJoin;
             if (roomOptions.CheckUserOnJoin)
             {
                 flags = flags | (int) RoomOptionBit.CheckUserOnJoin;
             }
-            #else
+#else
             // in PUN v1.88 and PUN 2, CheckUserOnJoin is set by default:
             flags = flags | (int) RoomOptionBit.CheckUserOnJoin;
             op[ParameterCode.CheckUserOnJoin] = true;
@@ -1203,6 +1207,10 @@ namespace Photon.Realtime
 
         /// <summary>(245) Room Time To Live. How long a room stays available (and in server-memory), after the last player becomes inactive. After this time, the room gets persisted or destroyed.</summary>
         public const byte EmptyRoomTtl = (byte)245;
+
+        public const byte IsOnPassProtected = 244;
+        public const byte Password = 243;
+
     }
 
 
@@ -1796,9 +1804,16 @@ namespace Photon.Realtime
         public bool BroadcastPropsChangeToAll { get { return this.broadcastPropsChangeToAll; } set { this.broadcastPropsChangeToAll = value; } }
         private bool broadcastPropsChangeToAll = true;
 
-        #if SERVERSDK
+        /// <summary>Set and password 
+        public bool IsOnPassProtected { get { return this.isOnPassProtected; } set { this.isOnPassProtected = value; } }
+        private bool isOnPassProtected = false;
+
+        public int Password;
+        ///</summary>
+
+#if SERVERSDK
         public bool CheckUserOnJoin { get; set; }
-        #endif
+#endif
     }
 
 
