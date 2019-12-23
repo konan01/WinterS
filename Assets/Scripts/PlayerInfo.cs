@@ -6,6 +6,10 @@ public class PlayerInfo : MonoBehaviour
 {
     int damage;
     int health;
+    float speed;
+    float XP;
+    int Lvl;
+
     Class @class;
     enum Class
     {

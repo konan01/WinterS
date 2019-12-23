@@ -24,16 +24,17 @@ public class EnemyManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (boss == null)
+                timer += Time.deltaTime;
+            timer_boss += Time.deltaTime;
 
-        if(boss==null)
-        timer += Time.deltaTime;
-        timer_boss += Time.deltaTime;
+            if (timer_boss >= 5f) { boss = GameObject.FindGameObjectWithTag("Boss"); timer_boss = 0; }    //проверка имеется ли босс на сцене
 
-        if (timer_boss >= 5f) { boss = GameObject.FindGameObjectWithTag("Boss"); timer_boss = 0; }    //проверка имеется ли босс на сцене
-
-        if (timer >= spawnTime)
-        { Spawn(); timer = 0; }
-        
+            if (timer >= spawnTime)
+            { Spawn(); timer = 0; }
+        }
     }
     void Spawn()
     {
