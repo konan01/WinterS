@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 6887858184995128279}
   smoothing: 5
+  image: {fileID: 0}
 --- !u!114 &178043171791866465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab_Projactile: {fileID: 6701391071603581401, guid: 696a1dd05d3731d4c9201591792d1ec2,
     type: 3}
-  strange: 0
   debuglengt: 1
 --- !u!1 &6887858184994774949
 GameObject:
@@ -489,8 +489,8 @@ MonoBehaviour:
   deathClip: {fileID: 0}
   flashSpeed: 5
   flashColour: {r: 1, g: 0, b: 0, a: 0.1}
-  deathScreen: {fileID: 0}
-  goodmode: 0
+  sceneLoader: {fileID: 0}
+  goodmode: 1
 --- !u!114 &6887858185296187956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,7 +516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e81ce2b256b89b4ebc759122aadf99d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 0}
 --- !u!1 &6887858184994775031
 GameObject:
   m_ObjectHideFlags: 0

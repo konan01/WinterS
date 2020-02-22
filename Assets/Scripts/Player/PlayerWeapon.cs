@@ -7,7 +7,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] static Weapon weapon;
     private void Awake()
     {
-        weapon = new Weapon(-1, 0, 1, 0);
+        weapon = new Weapon(-1,0,1,0);
     }
     public void SetWeapon(Weapon wea)
     {
