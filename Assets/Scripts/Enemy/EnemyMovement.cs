@@ -13,29 +13,54 @@ public class EnemyMovement : MonoBehaviour
     //EnemyHealth enemyHealth;
     UnityEngine.AI.NavMeshAgent nav;
     int distanseIndex=0;
-
+    bool playerInRange;
+    float randomWalkTimer =0;
     [SerializeField] GameObject[] player;
     void Awake ()
     {
+        
         //distanse = new List<float>();
         player = GameObject.FindGameObjectsWithTag("Player");
         //player = GameObject.FindGameObjectWithTag ("Player").transform;
 
         //enemyHealth = GetComponent <EnemyHealth> ();
         nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
+        nav.SetDestination(new Vector3(UnityEngine.Random.Range(-30, 20), 0, UnityEngine.Random.Range(-30, 30)));
         foreach (var item in player)
             print(item);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == player[distanseIndex])
+        {
+            playerInRange = true;
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == player[distanseIndex])
+        {
+            playerInRange = false;
+        }
+    }
 
     void Update ()
     {
+        randomWalkTimer += Time.deltaTime;
         CalcDistance();
         //if(enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
         //{
-       // print(distanseIndex);
-        if(player[distanseIndex]!=null)
-            nav.SetDestination (player[distanseIndex].transform.position);
+        // print(distanseIndex);
+        if (player[distanseIndex] != null && playerInRange)
+        {
+            nav.SetDestination(player[distanseIndex].transform.position);
+        }
+        else if (!playerInRange && randomWalkTimer>=5)
+        {
+            nav.SetDestination(new Vector3(UnityEngine.Random.Range(-30, 20),0, UnityEngine.Random.Range(-30, 30)));
+            randomWalkTimer = 0;
+        }
         //}
         //else
         //{
@@ -44,9 +69,9 @@ public class EnemyMovement : MonoBehaviour
     }
     void CalcDistance()
     {
-        NativeList<float3> players = new NativeList<float3>(Allocator.Persistent);
-        NativeList<float> distanse = new NativeList<float>(Allocator.Persistent);
-        NativeArray<int> index = new NativeArray<int>(1,Allocator.Persistent);
+        NativeList<float3> players = new NativeList<float3>(Allocator.TempJob);
+        NativeList<float> distanse = new NativeList<float>(Allocator.TempJob);
+        NativeArray<int> index = new NativeArray<int>(1,Allocator.TempJob);
         foreach (var item in player)
         {
             players.Add(item.transform.position);
