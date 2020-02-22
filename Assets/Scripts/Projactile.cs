@@ -37,7 +37,7 @@ public class Projactile : MonoBehaviour
         {
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(PlayerShooting.damagePerShot*PlayerWeapon.GetMyltiplaer());
+                enemyHealth.TakeDamage(PlayerShooting.damagePerShot*PlayerInfo.GetMyltiplaer());
                 PhotonNetwork.Destroy(gameObject);
             }
             else

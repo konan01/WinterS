@@ -18,14 +18,11 @@ public class UpgradeManager : MonoBehaviour
     //public TextMeshProUGUI UpgradeHPText;
     //public TextMeshProUGUI UpgradeHPText;
 
-    PlayerHealth playerHealth;
-    PlayerWeapon playerWeapon;
+    public PlayerInfo playerInfo;
     // Start is called before the first frame update
     void Awake()
     {
         
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
-        playerWeapon = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerWeapon>();
     }
 
     // Update is called once per frame
@@ -46,9 +43,9 @@ public class UpgradeManager : MonoBehaviour
     }
     public void ImproveCountProjactle()
     {
-        if (playerWeapon.GetWeaponLevel() > 0)
+        if (playerInfo.GetWeaponLevel() > 0)
         {
-            if ((PlayerShooting.length - playerWeapon.GetWeaponLevel())==0)
+            if ((PlayerShooting.length - playerInfo.GetWeaponLevel())==0)
             {
                 if (ScoreManager.GetScore() >= costCountProjactle)
                 {
@@ -62,19 +59,19 @@ public class UpgradeManager : MonoBehaviour
             }
             else print("Уровень оружия слишком мал");
         }
-        else if(playerWeapon.GetWeaponLevel() <= 0)
+        else if(playerInfo.GetWeaponLevel() <= 0)
             print("Уровень оружия слишком мал");
     }
     public void OpenUpgradeDialog(GameObject panel)
     {
         panel.SetActive(!panel.activeSelf);
     }
-    public void Healing()
-    {
-        if (ScoreManager.GetScore() >= costHealing)
-        {
-            playerHealth.currentHealth += (PlayerHealth.startingHealth / 100) * 10;
-            ScoreManager.AddScore(-costHealing);
-        }
-    }
+    //public void Healing()
+    //{
+    //    if (ScoreManager.GetScore() >= costHealing)
+    //    {
+    //        playerInfo.currentHealth += (PlayerHealth.startingHealth / 100) * 10;
+    //        ScoreManager.AddScore(-costHealing);
+    //    }
+    //}
 }

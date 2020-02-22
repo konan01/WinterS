@@ -35,6 +35,11 @@ public class Container : MonoBehaviour
                 PhotonNetwork.JoinRoom(Name);
         //PhotonNetwork.JoinRandomRoom();
     }
+    public void DeleteRoom()
+    {
+        Destroy(gameObject);
+    }
+
     private int PasswordToInt(string value)
     {
         int password = 0;

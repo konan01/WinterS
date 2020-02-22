@@ -13,15 +13,15 @@ public class Load : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (File.Exists(Application.persistentDataPath + "/Data/data.save"))  //chek file to hide/show continue button
-        {
-            continue_button.SetActive(true);
-            //print(Directory.Exists(Application.persistentDataPath + "/Data/data.save"));
-        }
-        else
-        {
-            continue_button.SetActive(false);
-        }
+        //if (File.Exists(Application.persistentDataPath + "/Data/data.save"))  //chek file to hide/show continue button
+        //{
+        //    continue_button.SetActive(true);
+        //    //print(Directory.Exists(Application.persistentDataPath + "/Data/data.save"));
+        //}
+        //else
+        //{
+        //    continue_button.SetActive(false);
+        //}
     }
 
     // Update is called once per frame
@@ -101,7 +101,7 @@ public class Load : MonoBehaviour
             {
                 sr.ReadLine();
                 masEnemy.masEnemy[i].GetComponent<EnemyHealth>().startingHealth =       Convert.ToInt32(sr.ReadLine());
-                masEnemy.masEnemy[i].GetComponent<EnemyAttack>().startingAttackDamage = Convert.ToInt32(sr.ReadLine());
+                masEnemy.masEnemy[i].GetComponentInChildren<EnemyAttack>().startingAttackDamage = Convert.ToInt32(sr.ReadLine());
                 masEnemy.masEnemy[i].GetComponent<EnemyHealth>().scoreValue =           Convert.ToInt32(sr.ReadLine());
             }
             sr.Close();

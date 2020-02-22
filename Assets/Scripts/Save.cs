@@ -7,16 +7,23 @@ using UnityEngine;
 
 public class Save : MonoBehaviour
 {
-    public static string file;
+    public static string fileSave1;
+    public static string fileSave2;
+    public static string fileSave3;
     public EnemyBase masEnemy;
     // Start is called before the first frame update
     void Start()
     {
-        if(!Directory.Exists(Application.persistentDataPath + "/Data"))
+        if (!Directory.Exists(Application.persistentDataPath + "/Data"))
+        {
             Directory.CreateDirectory(Application.persistentDataPath + "/Data");
+            Directory.CreateDirectory(Application.persistentDataPath + "/Data/Saves");
+        }
         //file = "Data/Save/data.save";
-        file = Application.persistentDataPath+"/Data/data.save";
-        CreateDefault();
+        fileSave1 = Application.persistentDataPath+ "/Data/Saves/save data1.save";
+        fileSave2 = Application.persistentDataPath+ "/Data/Saves/save data2.save";
+        fileSave3 = Application.persistentDataPath+ "/Data/Saves/save data3.save";
+        //CreateDefault();
 
     }
 
@@ -29,12 +36,12 @@ public class Save : MonoBehaviour
            loadEncripted();
     }
 
-    void CreateDefault()
+    public void CreateDefault()
     {
 
-        if (!File.Exists(Application.persistentDataPath + "/Data/default.save"))
+        if (!File.Exists(Application.persistentDataPath + "/Data/Saves/default.save"))
         {
-            StreamWriter sw_file = new StreamWriter(Application.persistentDataPath + "/Data/default.save");
+            StreamWriter sw_file = new StreamWriter(Application.persistentDataPath + "/Data/Saves/default.save");
             sw_file.WriteLine("100");
             sw_file.WriteLine("0");
             sw_file.WriteLine("20");
@@ -57,9 +64,9 @@ public class Save : MonoBehaviour
         }
         else return;
     }
-    public void SaveGame()
+    public void SaveGameCell1()
     {
-        StreamWriter sw_file = new StreamWriter(file);
+        StreamWriter sw_file = new StreamWriter(fileSave1);
         sw_file.WriteLine(PlayerHealth.startingHealth);
         sw_file.WriteLine(ScoreManager.GetScore());
         sw_file.WriteLine(PlayerShooting.damagePerShot);
@@ -78,7 +85,48 @@ public class Save : MonoBehaviour
 
         }
         sw_file.Close();
+    }
+    public void SaveGameCell2()
+    {
+        StreamWriter sw_file = new StreamWriter(fileSave2);
+        sw_file.WriteLine(PlayerHealth.startingHealth);
+        sw_file.WriteLine(ScoreManager.GetScore());
+        sw_file.WriteLine(PlayerShooting.damagePerShot);
 
+        sw_file.WriteLine(PlayerShooting.timeBetweenBullets);
+        sw_file.WriteLine(Projactile.velocity);
+        sw_file.WriteLine(UpgradeManager.costUpgradeHP);
+
+        for (int i = 0; i < masEnemy.masEnemy.Length; i++)
+        {
+            sw_file.WriteLine();
+            sw_file.WriteLine(masEnemy.masEnemy[i].GetComponent<EnemyHealth>().startingHealth);
+            sw_file.WriteLine(masEnemy.masEnemy[i].GetComponent<EnemyAttack>().startingAttackDamage);
+            sw_file.WriteLine(masEnemy.masEnemy[i].GetComponent<EnemyHealth>().scoreValue);
+
+
+        }
+        sw_file.Close();
+    }
+    public void SaveGameCell3()
+    {
+        StreamWriter sw_file = new StreamWriter(fileSave3);
+        sw_file.WriteLine(PlayerHealth.startingHealth);
+        sw_file.WriteLine(ScoreManager.GetScore());
+        sw_file.WriteLine(PlayerShooting.damagePerShot);
+
+        sw_file.WriteLine(PlayerShooting.timeBetweenBullets);
+        sw_file.WriteLine(Projactile.velocity);
+        sw_file.WriteLine(UpgradeManager.costUpgradeHP);
+
+        for (int i = 0; i < masEnemy.masEnemy.Length; i++)
+        {
+            sw_file.WriteLine();
+            sw_file.WriteLine(masEnemy.masEnemy[i].GetComponent<EnemyHealth>().startingHealth);
+            sw_file.WriteLine(masEnemy.masEnemy[i].GetComponent<EnemyAttack>().startingAttackDamage);
+            sw_file.WriteLine(masEnemy.masEnemy[i].GetComponent<EnemyHealth>().scoreValue);
+        }
+        sw_file.Close();
     }
     public void SaveEncripted()
     {
@@ -106,7 +154,8 @@ public class Save : MonoBehaviour
         sw_file.Write(tmpr.Replace("-",""));
         sw_file.Close();
         
-    }public void loadEncripted()
+    }
+    public void loadEncripted()
     {
         string tmp;
         StreamReader sr = new StreamReader(Application.persistentDataPath + "/Data/data1.save");

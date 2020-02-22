@@ -24,21 +24,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     TypedLobby lobby = new TypedLobby("sdfsd", LobbyType.Default);
     List<Container> containers;
-    bool isConnected = false;
     float timer;
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         UpdateListRoom(roomList);
        // print(roomList[0].Name + " " + roomList[0].PlayerCount);
     }
-    
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        
-        Log(newPlayer.NickName+" connected to room");
-    }
 
-    // Start is called before the first frame update
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) => Log(newPlayer.NickName + " connected to room");
+
     void Start()
     {
         containers = new List<Container>();
@@ -47,7 +41,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     
     public override void OnConnectedToMaster()
     {
-        isConnected = true;
         PhotonNetwork.JoinLobby(lobby);
     }
     public override void OnJoinedLobby()
@@ -57,11 +50,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     public void CreateLobby()
     {
-        if (isConnected)
+        
+      ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        if (PhotonNetwork.IsConnected)
         {
+
             //print(passwordRoom.text);
             if (!passwordRoom.text.Equals(""))
-                PhotonNetwork.CreateRoom(nameRoom.text, new RoomOptions { MaxPlayers = 3 , IsOnPassProtected=true, Password=PasswordEncryption(passwordRoom.text) }); 
+            {hash.Add("Password", PasswordEncryption(passwordRoom.text));
+                PhotonNetwork.CreateRoom(nameRoom.text, new RoomOptions { MaxPlayers = 3, CustomRoomProperties = hash });
+            } 
             else
                 PhotonNetwork.CreateRoom(nameRoom.text, new RoomOptions { MaxPlayers = 3, IsOnPassProtected = false });
         }
@@ -79,7 +77,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         scenesLoader.NewGame();
         Spawn();
         scenesLoader.TurnOnManagers();
-        print(containers.Count);
+       
     }
 
     // Update is called once per frame
@@ -97,11 +95,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private void UpdateListRoom(List<RoomInfo> roomList)
     {
-        print(roomList.Count);
-        print(containers.Count);
+       
         if (containers.Count < roomList.Count)
             foreach (var item in roomList)
             {
+                print(roomList[0].CustomProperties["Password"]);
                 Container listbit = Instantiate(ListRoomBit, container.transform).GetComponent<Container>();
                 listbit.transform.SetParent(container.transform);
                 listbit.Name = item.Name;
@@ -130,7 +128,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             for (int i = 0; i < containers.Count; i++)
             {
                 if (containers[i].Name != roomList[i].Name)
-                    Destroy(containers[i]);
+                    containers[i].DeleteRoom();
             }
             //foreach (var item in containers)
             //{

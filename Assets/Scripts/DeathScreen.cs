@@ -43,7 +43,7 @@ public class DeathScreen : MonoBehaviour
     public void BackToMainMenu()
     {
         PhotonNetwork.LeaveRoom();
-        scenesLoader.BackToMenu(true);
+        scenesLoader.BackToMenu();
         gameObject.SetActive(false);
     }
 }

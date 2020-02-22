@@ -7,11 +7,11 @@ public class ScoreManager : MonoBehaviour
 {
      public TextMeshProUGUI text;
 
-    [SerializeField] static Int64 score;
+    [SerializeField] static Int64 Gamescore;
     void Start ()
     {
-        text =GameObject.FindGameObjectWithTag("Score").GetComponent <TextMeshProUGUI> ();
-        score = 0;
+        text = GameObject.FindGameObjectWithTag("Score").GetComponent <TextMeshProUGUI> ();
+        Gamescore = 0;
     }
 
     void OnGUI()
@@ -21,21 +21,27 @@ public class ScoreManager : MonoBehaviour
     }
     void Update ()
     {
-        text.text = "Очки: " + score;
+        text.text = Strings.score + Gamescore;
+    }
+    void TopScorePlayer()
+    {
+        
+
     }
     public static void SetScore(Int64 value)
     {
-        score = value;
+        Gamescore = value;
 
     }
     public static void AddScore(Int64 value)
     {
-        score += value;
+        Gamescore += value;
 
     }
     public static Int64 GetScore()
     {
 
-        return score;
+        return Gamescore;
     }
+
 }
