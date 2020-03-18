@@ -16,6 +16,7 @@ TagManager:
   - HealthSlider
   - SceneManager
   - CameraCharester
+  - GameCamera
   layers:
   - Default
   - TransparentFX

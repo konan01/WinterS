@@ -13,11 +13,15 @@ public class PlayerInfo : MonoBehaviour, IPunObservable
     int health;
     float speed;
     float XP;
+    int coin;
     int Lvl;
 
    [SerializeField] List<Int64> scores;
 
     Class @class;
+
+    public int Coin { get => coin; set => coin = value; }
+
     enum Class
     {
         IceSculptures,

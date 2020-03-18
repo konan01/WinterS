@@ -15,9 +15,9 @@ public class CameraFollow : MonoBehaviour {
     PhotonView photonView;
     void Awake()
     {
-        
+
         //offset = transform.position - target.position;
-       
+        
 
         photonView = GetComponent<PhotonView>();
 
@@ -46,14 +46,13 @@ public class CameraFollow : MonoBehaviour {
         // Calculate the initial offset.
         offset = transform.position - target.transform.position;
        
-
     }
     
        
     
     public void CamFollow()
     {
-
+        
         if (photonView.IsMine)
         {  
             // Create a postion the camera is aiming for based on the offset from the target.

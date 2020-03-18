@@ -14,12 +14,15 @@ public class ScenesLoader : MonoBehaviour
     public GameObject roomListPanel;               //Panels
     public GameObject menuPanel;                   //Panels
     public GameObject characterSelectPanel;        //Panels
+    public GameObject deathPanel;                  //Panels
 
     public EnemyBase listEnemy;                    //Managers
     public GameObject upgradeManager;              //Managers
     public GameObject enemyManager;                //Managers
     public GameObject playerInfo;                  //Managers
     public GameObject characterManager;            //Managers
+    public GameObject Observer;                    //Managers
+
 
 
     public Transform playerTransform;
@@ -40,7 +43,7 @@ public class ScenesLoader : MonoBehaviour
         canvasMenu.SetActive(false);
         canvasGame.SetActive(false);
         upgradePanel.SetActive(false);
-        enemyManager.SetActive(false);//временное отключение\включение врагов
+        enemyManager.SetActive(false);
 
 
         canvasMenu.SetActive(true);
@@ -102,12 +105,14 @@ public class ScenesLoader : MonoBehaviour
     }
     public void TurnOnManagers()
     {
+        Observer.SetActive(true);
         upgradeManager.SetActive(true);
         playerInfo.SetActive(true);
-        enemyManager.SetActive(true);//временное включение врагов
+        //enemyManager.SetActive(true);//временное включение врагов
     }
     public void TurnOffManagers()
     {
+        Observer.SetActive(false);
         upgradeManager.SetActive(false);
         playerInfo.SetActive(false);
         enemyManager.SetActive(false);//временное отключение врагов
@@ -142,6 +147,10 @@ public class ScenesLoader : MonoBehaviour
         //SceneManager.LoadScene();
 
     }
+    public void ShowDeathScreen()
+    {
+        deathPanel.SetActive(true);
+    }
     public void CharacterSelect()
     {
         canvasGame.SetActive(false);
@@ -151,6 +160,9 @@ public class ScenesLoader : MonoBehaviour
         cameraCharaster.enabled = true;
         
     }
+   
+
+
     public void ExitGame()
     {
         Application.Quit();

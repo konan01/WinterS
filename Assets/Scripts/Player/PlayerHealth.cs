@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake ()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         //anim = GetComponent <Animator> ();
        // playerAudio = GetComponent <AudioSource> ();
         playerMovement = GetComponent <PlayerMovement> ();
@@ -52,9 +52,11 @@ public class PlayerHealth : MonoBehaviour
     {
         
         isDead = true;
-        PhotonNetwork.LeaveRoom();
-        sceneLoader.BackToMenu();
-       // PhotonNetwork.Destroy(gameObject);
+        //PhotonNetwork.LeaveRoom();
+        //sceneLoader.BackToMenu();
+
+        PhotonNetwork.Destroy(gameObject);
+        sceneLoader.ShowDeathScreen();
         
         //playerShooting.DisableEffects ();
 

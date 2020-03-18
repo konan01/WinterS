@@ -5,12 +5,20 @@ using System.Collections;
 using TMPro;
 public class ScoreManager : MonoBehaviour
 {
-     public TextMeshProUGUI text;
+     public TextMeshProUGUI textGamescore;
+     public TextMeshProUGUI textBonusesCollected;
+     public TextMeshProUGUI textEnemiesKilled;
+     //public TextMeshProUGUI textGamescore;
 
     [SerializeField] static Int64 Gamescore;
+
+    public static int bonusesCollected;
+    public static int enemiesKilled;
+
+
     void Start ()
     {
-        text = GameObject.FindGameObjectWithTag("Score").GetComponent <TextMeshProUGUI> ();
+        textGamescore = GameObject.FindGameObjectWithTag("Score").GetComponent <TextMeshProUGUI> ();
         Gamescore = 0;
     }
 
@@ -21,7 +29,7 @@ public class ScoreManager : MonoBehaviour
     }
     void Update ()
     {
-        text.text = Strings.score + Gamescore;
+        textGamescore.text = Strings.score + Gamescore;
     }
     void TopScorePlayer()
     {

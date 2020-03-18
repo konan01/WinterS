@@ -56,6 +56,7 @@ public class EnemyHealth : MonoBehaviour
     {
        
         isDead = true;
+        ScoreManager.enemiesKilled += 1;
         Destroy(gameObject);
         
 

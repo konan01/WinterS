@@ -109,7 +109,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 listbit.CountPlayers = item.PlayerCount + "/" + item.MaxPlayers;
                 listbit.id += 1;
 
-                containers.Add(listbit); print("roomname= " + item.Name + " passwordprotected= " + item.IsOnPassProtected + " roompassword= " + item.Password);
+                containers.Add(listbit); //print("roomname= " + item.Name + " passwordprotected= " + item.IsOnPassProtected + " roompassword= " + item.Password);
 
             }
         if (containers.Count == roomList.Count)
@@ -141,7 +141,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         debugText.text += "\n";
         debugText.text += message;
-
 
     }
     private void Spawn()
