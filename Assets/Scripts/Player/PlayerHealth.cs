@@ -2,11 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
+using Photon.Pun;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public Save save;
     public static int startingHealth = 100;
     public int currentHealth;
     public Slider healthSlider;
@@ -14,8 +13,8 @@ public class PlayerHealth : MonoBehaviour
     public AudioClip deathClip;
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
-    public DeathScreen deathScreen;
 
+    ScenesLoader sceneLoader;
     Animator anim;
     AudioSource playerAudio;
     PlayerMovement playerMovement;
@@ -27,48 +26,38 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake ()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         //anim = GetComponent <Animator> ();
        // playerAudio = GetComponent <AudioSource> ();
         playerMovement = GetComponent <PlayerMovement> ();
         //playerShooting = GetComponentInChildren <PlayerShooting> ();
         currentHealth = startingHealth;
+        healthSlider = GameObject.FindGameObjectWithTag("HealthSlider").GetComponent<Slider>();
+        sceneLoader = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<ScenesLoader>(); 
     }
 
 
-    void Update ()
+    void FixedUpdate ()
     {
-        if(isDead)
-        {
-           
-            deathScreen.Death_Screen();
-        }
-    }
+        //if(isDead)
+        //{
 
-
-    public void TakeDamage (int amount)
-    {
-        //damaged = true;
-
-        currentHealth -= amount;
-
+        //    deathScreen.ShowDeathScreen();
+        //}
+        healthSlider.maxValue=startingHealth;
         healthSlider.value = currentHealth;
-
-        //playerAudio.Play ();
-
-        if (currentHealth <= 0 && !isDead)
-        {
-            if(!goodmode)
-                Death();
-        }
     }
-
 
     void Death ()
     {
-        save.MSave();
+        
         isDead = true;
+        //PhotonNetwork.LeaveRoom();
+        //sceneLoader.BackToMenu();
 
+        PhotonNetwork.Destroy(gameObject);
+        sceneLoader.ShowDeathScreen();
+        
         //playerShooting.DisableEffects ();
 
         //anim.SetTrigger ("Die");
@@ -78,9 +67,29 @@ public class PlayerHealth : MonoBehaviour
 
         //playerMovement.enabled = false;
         //playerShooting.enabled = false;
-        deathScreen.Death_Screen();
+        
     }
 
+   
+    public void TakeDamage(int amount)
+    {
+        //damaged = true;
+        //if(photonNetwork.ismine) Handheld.Vibrate(); 
+        if (!goodmode)
+            currentHealth -= amount;
 
-    
+        //playerAudio.Play ();
+
+        if (currentHealth <= 0)
+        {
+            Death();
+        }
+    }
+    public void RestoreHP()
+    {
+        isDead = false;
+        currentHealth = startingHealth;
+    }
+   
+
 }

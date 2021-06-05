@@ -1,19 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] static int score;
+     public TextMeshProUGUI textGamescore;
+     public TextMeshProUGUI textBonusesCollected;
+     public TextMeshProUGUI textEnemiesKilled;
+     //public TextMeshProUGUI textGamescore;
 
+    [SerializeField] static Int64 Gamescore;
 
-     public TextMeshProUGUI text;
+    public static int bonusesCollected;
+    public static int enemiesKilled;
 
 
     void Start ()
     {
-        text =GameObject.FindGameObjectWithTag("Score").GetComponent <TextMeshProUGUI> ();
-        score = 0;
+        textGamescore = GameObject.FindGameObjectWithTag("Score").GetComponent <TextMeshProUGUI> ();
+        Gamescore = 0;
     }
 
     void OnGUI()
@@ -23,21 +29,27 @@ public class ScoreManager : MonoBehaviour
     }
     void Update ()
     {
-        text.text = "Очки: " + score;
+        textGamescore.text = Strings.score + Gamescore;
     }
-    public static void SetScore(int value)
+    void TopScorePlayer()
     {
-        score = value;
+        
 
     }
-    public static void AddScore(int value)
+    public static void SetScore(Int64 value)
     {
-        score += value;
+        Gamescore = value;
 
     }
-    public static int GetScore()
+    public static void AddScore(Int64 value)
+    {
+        Gamescore += value;
+
+    }
+    public static Int64 GetScore()
     {
 
-        return score;
+        return Gamescore;
     }
+
 }

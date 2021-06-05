@@ -4,14 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - CostWeapon
+  - Complexity
+  - WeaponBase
   - Score
+  - Boss
+  - Enemy
   - Joystik1
   - joistik
-  - Enemy
-  - Trig
-  - Boss
-  - Complexity
   - EnemyBase
+  - HealthSlider
+  - SceneManager
+  - CameraCharester
+  - GameCamera
   layers:
   - Default
   - TransparentFX

@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 6f;            // The speed that the player will move at.
+    
+    public float speed = 4f;            // The speed that the player will move at.
 
     Vector3 movement;                   // The vector to store the direction of the player's movement.
     Animator anim;                      // Reference to the animator component.
     Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
     int floorMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
     float camRayLength = 100f;          // The length of the ray from the camera into the scene.
+
+    private PhotonView photonView;
     private JoyCon joystik;
     private JoyCon joystik1;
     void Awake()
@@ -20,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
         // Set up references.
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
+        photonView = GetComponent<PhotonView>();
     }
     
     void FixedUpdate()
@@ -30,14 +35,19 @@ public class PlayerMovement : MonoBehaviour
         float h1 = joystik1.Horizon();
         float v1 = joystik1.Vertical();
        // print(h+" "+v);
-        // Move the player around the scene.
-        Move(h, v);
 
-        // Turn the player to face the mouse cursor.
-        Turning(h1,v1);
+       if(photonView.IsMine)
+        {
+            // Move the player around the scene.
+            Move(h, v);
 
-        // Animate the player.
-        //Animating(h, v);
+            // Turn the player to face the mouse cursor.
+            Turning(h1, v1);
+
+            // Animate the player.
+            //Animating(h, v);
+        }
+
     }
 
     void Move(float h, float v)

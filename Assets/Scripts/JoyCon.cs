@@ -17,6 +17,7 @@ public class JoyCon : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDo
     {
         joyBG = GetComponent<Image>();
         joy = transform.GetChild(0).GetComponent<Image>();
+        active = false;
     }
     public virtual void OnDrag(PointerEventData eventData)
     {

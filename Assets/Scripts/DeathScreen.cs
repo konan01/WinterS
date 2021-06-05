@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,11 +8,7 @@ public class DeathScreen : MonoBehaviour
 {
 
     public bool isDeath;
-    public void show_UpgradeScreen(GameObject Screen)
-    {
-        gameObject.SetActive(false);
-        Screen.SetActive(!Screen.activeSelf);
-    }
+    public ScenesLoader scenesLoader;
 
     // Start is called before the first frame update
     void Start()
@@ -25,17 +22,28 @@ public class DeathScreen : MonoBehaviour
        
     }
 
-    public void Death_Screen()
+    public void ShowDeathScreen()
     {
-        isDeath = true;
-        Time.timeScale = 0;
-        gameObject.SetActive(true);
+        //isDeath = true;
+        //gameObject.SetActive(true);
+        scenesLoader.BackToMenu();
     }
 
-    public void RestartGame(int index)
+    public void RestartGame()
     {
+        isDeath = false;
         //gameObject.SetActive(false);
-        Time.timeScale = 1;
-        SceneManager.LoadScene(index);
+        gameObject.SetActive(false);
+        //SceneManager.LoadScene(index);
+    }
+    public void ShowUpgradeScreen()
+    {
+        scenesLoader.ShowUpgradeScreen();
+    }
+    public void BackToMainMenu()
+    {
+        PhotonNetwork.LeaveRoom();
+        scenesLoader.BackToMenu();
+        gameObject.SetActive(false);
     }
 }

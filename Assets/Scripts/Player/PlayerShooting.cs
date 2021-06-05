@@ -1,33 +1,39 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    [SerializeField] public static int damagePerShot = 20;
-    [SerializeField] public static float timeBetweenBullets = 0.4f;
+     public static int damagePerShot = 20;
+     public static float timeBetweenBullets = 0.3f;
+     public static int length=1;
 
     public GameObject Prefab_Projactile;
+
+    //public bool shottriger= false;
+    public int debuglengt = 1;
+
     float timer;
-   
     float effectsDisplayTime = 0.2f;
     private JoyCon shot;
-    Vector3 direction;
-    public int length;
-    public int strange;
+    private PhotonView photonView;
     void Awake ()
     {
         shot = GameObject.FindGameObjectWithTag("Joystik1").GetComponent<JoyCon>();
-        
+        photonView= GetComponent<PhotonView>();
     }
 
 
     void Update ()
     {
+        length = debuglengt;
         timer += Time.deltaTime;
 
-        if (shot.IsActive() && timer >= timeBetweenBullets && Time.timeScale != 0)
+        if (photonView.IsMine && shot.IsActive() && timer >= timeBetweenBullets && Time.timeScale != 0)
         {
-            Shoot();
+            OnceShoot();
         }
+        //if (shottriger && timer >= timeBetweenBullets && Time.timeScale != 0)
+        //    OnceShoot();
         //if (shot.IsActive() && Time.timeScale != 0)
         //{
         //    Shoot();
@@ -38,55 +44,177 @@ public class PlayerShooting : MonoBehaviour
         //}
     }
 
-    public void DisableEffects ()
+    void OnceShoot ()
     {
-       
-    }
-
-
-    void Shoot ()
-    {
-        Quaternion newRotation;
-        int n=1;
-        float angle=0.2f;
         timer = 0f;
-        //for (int i = 0; i < length; i++)
-       // {
-            if (length == 1)
-            {
-                direction = transform.forward;
-                newRotation = Quaternion.LookRotation(direction);
-                Instantiate(Prefab_Projactile, transform.position, newRotation);
-            }
-            if (length >= 2)
-            {
-                for (int j = 0; j < length ; j++, n *= j == length / 2 ? 1 : -1,  n = j == (int)length/2 && length>2? 0 : n , angle= j == length / 2 ? 0 : angle)
-                {
-                    direction = transform.forward + transform.right * n *angle;
-                    newRotation = Quaternion.LookRotation(direction);
-                    Instantiate(Prefab_Projactile, transform.position, newRotation);
-                }
-                
-            }
-        //}
-        
-       // direction2 = transform.forward + transform.right;
-       // Quaternion newRotation1 = Quaternion.LookRotation(direction2);
-       // Instantiate(Prefab_Projactile, transform.position, newRotation1);
-       // direction3 = transform.forward + transform.right * -1;
-       // Quaternion newRotation2 = Quaternion.LookRotation(direction3);
-       // Instantiate(Prefab_Projactile, transform.position, newRotation2);
-       // //direction4 = transform.forward;
-       // //Quaternion newRotation3 = Quaternion.LookRotation(direction4);
-       //// Instantiate(Prefab_Projactile, transform.position, newRotation3);
-       // direction5 = transform.forward + transform.right * 0.5f;
-       // Quaternion newRotation4 = Quaternion.LookRotation(direction5);
-       // Instantiate(Prefab_Projactile, transform.position, newRotation4);
-       // direction6 = transform.forward + transform.right * -1 * 0.5f;
-       // Quaternion newRotation5 = Quaternion.LookRotation(direction6);
-       // Instantiate(Prefab_Projactile, transform.position, newRotation5);
+
+        if (length == 1)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+        }
+        else if (length == 2)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.1f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.1f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position+ transform.right * 0.1f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position+ transform.right * 0.1f * -1, Quaternion.LookRotation(transform.forward));
+
+        }
+        else if (length == 3)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.1f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.1f + transform.up * -0.1f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.1f + transform.up * -0.1f, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.1f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.1f + transform.up * -0.1f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.1f + transform.up * -0.1f, Quaternion.LookRotation(transform.forward));
+
+        }
+        else if (length == 4)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up* 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.up* 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f * -1, Quaternion.LookRotation(transform.forward));
 
 
+        }
+        else if (length == 5)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+        }
+        else if (length == 6)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+
+        }
+        else if (length == 7)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+
+
+        }
+        else if (length == 8)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.4f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.4f * -1, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.4f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.4f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.4f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.4f * -1, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.4f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.4f * -1, Quaternion.LookRotation(transform.forward));
+
+        }
+        else if (length == 9)
+        {
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            PhotonNetwork.Instantiate(Prefab_Projactile.name, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+
+            
+
+            //Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f, Quaternion.LookRotation(transform.forward));
+
+            //Instantiate(Prefab_Projactile, transform.position + transform.up * -0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * -0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+            //Instantiate(Prefab_Projactile, transform.position + transform.right * 0.2f + transform.up * 0.2f, Quaternion.LookRotation(transform.forward));
+
+
+
+
+        }
 
         //if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
         //{
@@ -102,4 +230,76 @@ public class PlayerShooting : MonoBehaviour
         //    gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
         //}
     }
+    void ShootGun()
+    {
+        timer = 0f;
+
+       
+        if (length == 3)
+        {
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f * -1));
+
+        }
+        else if (length == 4)
+        {
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f * -1));
+
+        }
+
+        else if (length == 5)
+        {
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f * -1));
+
+        }
+        else if (length == 6)
+        {
+
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.3f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.3f * -1));
+
+        }
+        else if (length == 7)
+        {
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.3f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.3f * -1));
+
+        }
+        else if (length == 8)
+        {
+
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.3f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.4f));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.1f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.2f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.3f * -1));
+            Instantiate(Prefab_Projactile, transform.position, Quaternion.LookRotation(transform.forward + transform.right * 0.4f * -1));
+
+        }
+    }
+    public void DisableEffects()
+    {
+
+    }
 }
+

@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
     ParticleSystem hitParticles;
     bool isDead;
     bool isSinking;
-
+    
 
     void Awake ()
     {
@@ -28,6 +28,7 @@ public class EnemyHealth : MonoBehaviour
         //{
         //    transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
         //}
+        
     }
 
 
@@ -55,6 +56,7 @@ public class EnemyHealth : MonoBehaviour
     {
        
         isDead = true;
+        ScoreManager.enemiesKilled += 1;
         Destroy(gameObject);
         
 
